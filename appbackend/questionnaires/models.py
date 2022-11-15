@@ -9,9 +9,8 @@ class Questionnaire(models.Model):
     creator = models.ForeignKey(Therapist, on_delete=models.CASCADE)
 
 
-
 class Question(models.Model):
-    questionnaires = models.ManyToManyField(Questionnaire)
+    questionnaires = models.ManyToManyField(Questionnaire, related_name="questions")
     question_text = models.CharField(max_length=250)
     creator = models.ForeignKey(Therapist, on_delete=models.CASCADE)
 

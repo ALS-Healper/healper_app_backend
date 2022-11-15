@@ -2,6 +2,7 @@ from django.db import models
 from django.contrib.auth.models import User
 
 
+
 class Therapist(models.Model):
     is_therapist = models.BooleanField(default=True)
     user_ref = models.ForeignKey(User, on_delete=models.CASCADE)
