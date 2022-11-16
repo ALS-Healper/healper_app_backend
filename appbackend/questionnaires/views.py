@@ -24,25 +24,16 @@ class GroupViewSet(viewsets.ModelViewSet):
     permission_classes = [permissions.IsAuthenticated]
 
 
-
-
 class QuestionnaireViewSet(viewsets.ModelViewSet):
     serializer_class = QuestionnaireSerializer
+    queryset = Questionnaire.objects.all()
+    
 
-    def get_queryset(self):
-        #TODO: Fix this method once we start adding more questionnaires
-        query   = Questionnaire.objects.all()
-        questions = Question.objects.filter(questionnaires__in=query)
-        for questionnaire in query:
-            query.questions = questions
-        return query
+class QuestionViewSet(viewsets.ModelViewSet):
+    serializer_class = QuestionSerializer
+    queryset = Question.objects.all()
 
 
 class QuestionEntryViewSet(viewsets.ModelViewSet):
     serializer_class = QuestionEntrySerializer
-
-    def get_queryset(self):
-        #TODO: Fix this method once we start adding more questionnaires
-        print("Noice")
-        query   = QuestionEntry.objects.all()
-        return query
+    queryset = QuestionEntry.objects.all()

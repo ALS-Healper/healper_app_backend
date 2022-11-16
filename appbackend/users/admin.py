@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from questionnaires.models import Question, QuestionEntry, Questionnaire
+from questionnaires.models import Question, QuestionEntry, Questionnaire, QuestionChoice, QuestionInput, QuestionNumeric, OptionChoice, OptionInput, OptionNumeric
 from .models import Client, Therapist
 
 @admin.register(Therapist)
@@ -31,3 +31,41 @@ class QuestionEntryAdmin(admin.ModelAdmin):
 # To display the question text in list view
    def get_question_text(self, obj):
     return obj.question.question_text
+
+
+@admin.register(QuestionInput)
+class QuestionInputAdmin(admin.ModelAdmin):
+   list_display = ['pk','creator', 'question_text', 'get_questionnaires']
+
+   #find all questionnaires the question is part of
+   def get_questionnaires(self, obj):
+      return "\n".join([p.title for p in obj.questionnaires.all()])
+
+@admin.register(QuestionChoice)
+class QuestionChoiceAdmin(admin.ModelAdmin):
+   list_display = ['pk','creator', 'question_text', 'get_questionnaires']
+
+   #find all questionnaires the question is part of
+   def get_questionnaires(self, obj):
+      return "\n".join([p.title for p in obj.questionnaires.all()])
+
+@admin.register(QuestionNumeric)
+class QuestionNumericAdmin(admin.ModelAdmin):
+   list_display = ['pk','creator', 'question_text', 'get_questionnaires']
+
+   #find all questionnaires the question is part of
+   def get_questionnaires(self, obj):
+      return "\n".join([p.title for p in obj.questionnaires.all()])
+
+
+@admin.register(OptionInput)
+class OptionInputAdmin(admin.ModelAdmin):
+   pass
+
+@admin.register(OptionChoice)
+class OptionChoiceAdmin(admin.ModelAdmin):
+   pass
+
+@admin.register(OptionNumeric)
+class OptionNumericAdmin(admin.ModelAdmin):
+   pass

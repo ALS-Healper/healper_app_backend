@@ -19,10 +19,10 @@ from rest_framework import routers
 from questionnaires import views
 
 router = routers.DefaultRouter()
+router.register(r'groups', views.GroupViewSet)
 router.register(r'users', views.UserViewSet)
 router.register(r'questionEntries', views.QuestionEntryViewSet, basename="questionEntries")
-router.register(r'groups', views.GroupViewSet)
-
+router.register(r'questions',views.QuestionViewSet, basename="questions")
 router.register(r'questionnaires', views.QuestionnaireViewSet, basename="questionnaires")
 
 
