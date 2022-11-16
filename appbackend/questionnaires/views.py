@@ -3,7 +3,7 @@ from django.contrib.auth.models import User, Group
 from rest_framework import viewsets, permissions
 
 from questionnaires.models import Questionnaire, Question, QuestionEntry
-from .serializers import UserSerializer, GroupSerializer, QuestionnaireSerializer
+from .serializers import QuestionEntrySerializer, UserSerializer, GroupSerializer, QuestionnaireSerializer, QuestionSerializer
 # Create your views here.
 
 class UserViewSet(viewsets.ModelViewSet):
@@ -31,9 +31,18 @@ class QuestionnaireViewSet(viewsets.ModelViewSet):
 
     def get_queryset(self):
         #TODO: Fix this method once we start adding more questionnaires
-        query   = Questionnaire.objects.filter(creator__user_ref=self.request.user)
+        query   = Questionnaire.objects.all()
         questions = Question.objects.filter(questionnaires__in=query)
-        print(questions.first().questionnaires)
         for questionnaire in query:
             query.questions = questions
+        return query
+
+
+class QuestionEntryViewSet(viewsets.ModelViewSet):
+    serializer_class = QuestionEntrySerializer
+
+    def get_queryset(self):
+        #TODO: Fix this method once we start adding more questionnaires
+        print("Noice")
+        query   = QuestionEntry.objects.all()
         return query
