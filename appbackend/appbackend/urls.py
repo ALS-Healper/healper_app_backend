@@ -24,6 +24,10 @@ router.register(r'users', views.UserViewSet)
 router.register(r'questionEntries', views.ClientEntryViewSet, basename="questionEntries")
 router.register(r'questions',views.QuestionViewSet, basename="questions")
 router.register(r'questionnaires', views.QuestionnaireViewSet, basename="questionnaires")
+#entry routes
+router.register(r'choiceentries', views.QuestionChoiceEntryViewSet, basename="choiceentries")
+router.register(r'inputentries', views.QuestionInputEntryViewSet, basename="inputentries")
+router.register(r'numericentries', views.QuestionNumericEntryViewSet, basename="numericentries")
 
 
 urlpatterns = [

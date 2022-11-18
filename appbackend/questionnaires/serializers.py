@@ -13,7 +13,7 @@ class TherapistSerializer(serializers.ModelSerializer):
     user_ref = UserSerializer(many=False)
     class Meta:
         model = Therapist
-        fields = ['is_therapist', 'user_ref']
+        fields = ['pk','is_therapist', 'user_ref']
 
 class ClientSerializer(serializers.ModelSerializer):
     creator = UserSerializer(many=False)
@@ -85,21 +85,21 @@ class QuestionNumericSerializer(serializers.ModelSerializer):
 
 #question Entry serializers
 class QuestionInputEntrySerializer(serializers.ModelSerializer):
-    question = QuestionInputSerializer(many=False)
+    question = QuestionInputSerializer
     creator = ClientSerializer
     class Meta:
         model = QuestionInputEntry
         fields =['pk','creator','response_text','entry_date','question']
 
 class QuestionChoiceEntrySerializer(serializers.ModelSerializer):
-    question = QuestionChoiceSerializer(many=False)
+    question = QuestionChoiceSerializer
     creator = ClientSerializer
     class Meta:
         model = QuestionChoiceEntry
         fields =['pk','creator','choice_value','entry_date','question']
 
 class QuestionNumericEntrySerializer(serializers.ModelSerializer):
-    question = QuestionNumericSerializer(many=False)
+    question = QuestionNumericSerializer
     creator = ClientSerializer
     class Meta:
         model = QuestionNumericEntry

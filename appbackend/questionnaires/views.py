@@ -50,12 +50,6 @@ class QuestionNumericEntryViewSet(viewsets.ModelViewSet):
     serializer_class = QuestionNumericEntrySerializer
     queryset = QuestionNumericEntry.objects.all()
 
-class QuestionEntryViewSet(ObjectMultipleModelAPIView):
-    querylist = [
-        {'queryset': QuestionInputEntry.objects.all(), 'serializer_class': QuestionInputEntry},
-        {'queryset': QuestionChoiceEntry.objects.all(), 'serializer_class': QuestionChoiceEntry},
-        {'queryset': QuestionNumericEntry.objects.all(), 'serializer_class': QuestionNumericEntry}
-    ]
 
 
 class ClientEntryViewSet(viewsets.ModelViewSet):
