@@ -1,8 +1,6 @@
 from datetime import timezone
 from django.db import models
-
 from users.models import Therapist, Client
-
 
 class Questionnaire(models.Model):
     title = models.CharField(null=True, blank=True, max_length=100)
@@ -35,33 +33,30 @@ class QuestionNumeric(Question):
     questionnaires = models.ManyToManyField(Questionnaire, related_name="numericquestions")
 
 class OptionNumeric(models.Model):
-    question = models.ForeignKey(QuestionNumeric, on_delete=models.CASCADE, related_name="optionnumerics" )
+    question = models.ForeignKey(QuestionNumeric, on_delete=models.CASCADE, related_name="optionnumerics")
     min_value = models.IntegerField(default=1)
     max_value = models.IntegerField(default=10)
 
-
-class QuestionEntry(models.Model):
-    question = models.ForeignKey(Question, on_delete=models.CASCADE)
+class QuestionInputEntry(models.Model):
+    question = models.ForeignKey(QuestionInput, on_delete=models.CASCADE, related_name="inputentries")
     response_text = models.CharField(max_length=300)
     entry_date = models.DateTimeField(auto_now_add=True)
-    creator = models.ForeignKey(Client, on_delete=models.CASCADE)
+    creator = models.ForeignKey(Client, on_delete=models.CASCADE, related_name="inputentries")
 
 class QuestionNumericEntry(models.Model):
-    question = models.ForeignKey(Question, on_delete=models.CASCADE)
+    question = models.ForeignKey(QuestionNumeric, on_delete=models.CASCADE, related_name="numericentries")
     response_value = models.IntegerField()
     entry_date = models.DateTimeField(auto_now_add=True)
-    creator = models.ForeignKey(Client, on_delete=models.CASCADE)
+    creator = models.ForeignKey(Client, on_delete=models.CASCADE, related_name="numericentries")
 
 class QuestionChoiceEntry(models.Model):
-    question = models.ForeignKey(Question, on_delete=models.CASCADE)
+    question = models.ForeignKey(QuestionChoice, on_delete=models.CASCADE, related_name="choiceentries")
     choice_value = models.CharField(max_length=100)
     entry_date = models.DateTimeField(auto_now_add=True)
-    creator = models.ForeignKey(Client, on_delete=models.CASCADE)
+    creator = models.ForeignKey(Client, on_delete=models.CASCADE, related_name="choiceentries")
 
 
 
-
-    
 #class OptionEntry(models.Model):
 #    question_entry = models.ForeignKey(QuestionEntry, on_delete=models.CASCADE)
 #    option_choice = models.ForeignKey(Option, on_delete=models.CASCADE)

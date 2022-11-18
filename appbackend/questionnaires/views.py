@@ -1,9 +1,11 @@
 from django.shortcuts import render
 from django.contrib.auth.models import User, Group
 from rest_framework import viewsets, permissions
+from drf_multiple_model.views import ObjectMultipleModelAPIView
 
-from questionnaires.models import Questionnaire, Question, QuestionEntry
-from .serializers import QuestionEntrySerializer, UserSerializer, GroupSerializer, QuestionnaireSerializer, QuestionSerializer
+from questionnaires.models import Questionnaire, Question, QuestionInputEntry, QuestionChoiceEntry, QuestionNumericEntry
+from .serializers import ClientEntrySerializer, QuestionChoiceEntrySerializer, QuestionEntrySerializer, QuestionInputEntrySerializer, QuestionNumericEntrySerializer, UserSerializer, GroupSerializer, QuestionnaireSerializer, QuestionSerializer
+from users.models import Client
 # Create your views here.
 
 class UserViewSet(viewsets.ModelViewSet):
@@ -34,6 +36,28 @@ class QuestionViewSet(viewsets.ModelViewSet):
     queryset = Question.objects.all()
 
 
-class QuestionEntryViewSet(viewsets.ModelViewSet):
-    serializer_class = QuestionEntrySerializer
-    queryset = QuestionEntry.objects.all()
+class QuestionInputEntryViewSet(viewsets.ModelViewSet):
+    serializer_class = QuestionInputEntrySerializer
+    queryset = QuestionInputEntry.objects.all()
+
+
+class QuestionChoiceEntryViewSet(viewsets.ModelViewSet):
+    serializer_class = QuestionChoiceEntrySerializer
+    queryset = QuestionChoiceEntry.objects.all()
+
+
+class QuestionNumericEntryViewSet(viewsets.ModelViewSet):
+    serializer_class = QuestionNumericEntrySerializer
+    queryset = QuestionNumericEntry.objects.all()
+
+class QuestionEntryViewSet(ObjectMultipleModelAPIView):
+    querylist = [
+        {'queryset': QuestionInputEntry.objects.all(), 'serializer_class': QuestionInputEntry},
+        {'queryset': QuestionChoiceEntry.objects.all(), 'serializer_class': QuestionChoiceEntry},
+        {'queryset': QuestionNumericEntry.objects.all(), 'serializer_class': QuestionNumericEntry}
+    ]
+
+
+class ClientEntryViewSet(viewsets.ModelViewSet):
+    serializer_class = ClientEntrySerializer
+    queryset = Client.objects.all()

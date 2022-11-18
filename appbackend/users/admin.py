@@ -1,6 +1,6 @@
 from django.contrib import admin
-
-from questionnaires.models import Question, QuestionEntry, Questionnaire, QuestionChoice, QuestionInput, QuestionNumeric, OptionChoice, OptionInput, OptionNumeric
+from questionnaires.models import QuestionChoiceEntry, QuestionInputEntry, QuestionNumericEntry
+from questionnaires.models import Question, Questionnaire, QuestionChoice, QuestionInput, QuestionNumeric, OptionChoice, OptionInput, OptionNumeric
 from .models import Client, Therapist
 
 @admin.register(Therapist)
@@ -24,13 +24,26 @@ class QuestionAdmin(admin.ModelAdmin):
     def get_questionnaires(self, obj):
         return "\n".join([p.title for p in obj.questionnaires.all()])
 
-@admin.register(QuestionEntry)
+@admin.register(QuestionInputEntry)
 class QuestionEntryAdmin(admin.ModelAdmin):
    list_display = ['creator', 'get_question_text', 'response_text', 'entry_date']
-
 # To display the question text in list view
    def get_question_text(self, obj):
-    return obj.question.question_text
+      return obj.question.question_text
+
+@admin.register(QuestionChoiceEntry)
+class QuestionEntryAdmin(admin.ModelAdmin):
+   list_display = ['creator', 'get_question_text', 'choice_value', 'entry_date']
+# To display the question text in list view
+   def get_question_text(self, obj):
+      return obj.question.question_text
+
+@admin.register(QuestionNumericEntry)
+class QuestionEntryAdmin(admin.ModelAdmin):
+   list_display = ['creator', 'get_question_text', 'response_value', 'entry_date']
+# To display the question text in list view
+   def get_question_text(self, obj):
+      return obj.question.question_text
 
 
 @admin.register(QuestionInput)

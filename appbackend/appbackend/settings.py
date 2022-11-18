@@ -39,7 +39,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'rest_framework',
     'users.apps.UsersConfig',
-    'questionnaires.apps.QuestionnairesConfig'
+    'questionnaires.apps.QuestionnairesConfig',
+    'drf_multiple_model'
 ]
 
 MIDDLEWARE = [

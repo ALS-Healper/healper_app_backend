@@ -1,6 +1,6 @@
 from django.contrib.auth.models import User, Group
 from users.models import Therapist, Client
-from questionnaires.models import Questionnaire, Question, QuestionEntry, QuestionChoice, QuestionInput, QuestionNumeric, OptionChoice, QuestionNumeric, OptionNumeric, OptionInput
+from questionnaires.models import Questionnaire, Question, QuestionChoice, QuestionInput, QuestionNumeric, OptionChoice, QuestionNumeric, OptionNumeric, OptionInput, QuestionNumericEntry, QuestionChoiceEntry, QuestionInputEntry
 from rest_framework import serializers
 
 
@@ -18,6 +18,7 @@ class TherapistSerializer(serializers.ModelSerializer):
 class ClientSerializer(serializers.ModelSerializer):
     creator = UserSerializer(many=False)
     thera = TherapistSerializer(many=False)
+    
     class Meta:
         model = Client
         fields = ['creator','thera']
@@ -82,12 +83,38 @@ class QuestionNumericSerializer(serializers.ModelSerializer):
         model = QuestionNumeric
         fields = ['pk','creator','question_text','optionnumerics']
 
-class QuestionEntrySerializer(serializers.ModelSerializer):
-    question = QuestionSerializer
+#question Entry serializers
+class QuestionInputEntrySerializer(serializers.ModelSerializer):
+    question = QuestionInputSerializer(many=False)
     creator = ClientSerializer
     class Meta:
-        model = QuestionEntry
+        model = QuestionInputEntry
         fields =['pk','creator','response_text','entry_date','question']
+
+class QuestionChoiceEntrySerializer(serializers.ModelSerializer):
+    question = QuestionChoiceSerializer(many=False)
+    creator = ClientSerializer
+    class Meta:
+        model = QuestionChoiceEntry
+        fields =['pk','creator','choice_value','entry_date','question']
+
+class QuestionNumericEntrySerializer(serializers.ModelSerializer):
+    question = QuestionNumericSerializer(many=False)
+    creator = ClientSerializer
+    class Meta:
+        model = QuestionNumericEntry
+        fields =['pk','creator','response_value','entry_date','question']
+
+
+class QuestionEntrySerializer(serializers.ModelSerializer):
+    choiceentries = QuestionChoiceSerializer
+    inputentries = QuestionInputEntrySerializer
+    numericentries = QuestionNumericEntrySerializer
+    creator = ClientSerializer
+    class Meta:
+        model = QuestionNumericEntry
+        fields =['pk','creator','choiceentries','inputentries','numericentries']
+
 
 #questionnaire serializer
 class QuestionnaireSerializer(serializers.ModelSerializer):
@@ -99,3 +126,15 @@ class QuestionnaireSerializer(serializers.ModelSerializer):
     class Meta:
         model = Questionnaire
         fields = ['title', 'creator','inputquestions', 'choicequestions', 'numericquestions']
+
+
+class ClientEntrySerializer(serializers.ModelSerializer):
+    user_ref = UserSerializer(many=False)
+    thera = TherapistSerializer(many=False)
+    choiceentries = QuestionChoiceEntrySerializer(many=True)
+    inputentries = QuestionInputEntrySerializer(many=True)
+    numericentries = QuestionNumericEntrySerializer(many=True)
+
+    class Meta:
+        model = Client
+        fields = ['user_ref','thera', 'choiceentries','inputentries','numericentries']
