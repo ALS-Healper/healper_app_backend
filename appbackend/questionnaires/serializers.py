@@ -1,33 +1,8 @@
 from django.contrib.auth.models import User, Group
 from users.models import Therapist, Client
+from users.serializers import TherapistSerializer, ClientSerializer, UserSerializer
 from questionnaires.models import Questionnaire, Question, QuestionChoice, QuestionInput, QuestionNumeric, OptionChoice, QuestionNumeric, OptionNumeric, OptionInput, QuestionNumericEntry, QuestionChoiceEntry, QuestionInputEntry
 from rest_framework import serializers
-
-
-class UserSerializer(serializers.HyperlinkedModelSerializer):
-    class Meta:
-        model = User
-        fields = ['username', 'email']
-
-class TherapistSerializer(serializers.ModelSerializer):
-    user_ref = UserSerializer(many=False)
-    class Meta:
-        model = Therapist
-        fields = ['pk','is_therapist', 'user_ref']
-
-class ClientSerializer(serializers.ModelSerializer):
-    creator = UserSerializer(many=False)
-    thera = TherapistSerializer(many=False)
-    
-    class Meta:
-        model = Client
-        fields = ['creator','thera']
-
-class GroupSerializer(serializers.HyperlinkedModelSerializer):
-    class Meta:
-        model = Group
-        fields = ['url', 'name']
-
 
 
 #class OptionSerializer(serializers.ModelSerializer):
