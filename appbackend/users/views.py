@@ -3,7 +3,7 @@ from django.shortcuts import render
 from django.contrib.auth.models import User, Group
 from rest_framework import viewsets, permissions
 from rest_framework.permissions import IsAuthenticated
-from .serializers import UserSerializer, GroupSerializer, TherapistSerializer, ClientSerializer, ClientListSerializer
+from .serializers import UserSerializer, GroupSerializer, TherapistSerializer, ClientSerializer, ClientListSerializer, UserDetailSerializer
 from .models import Client, Therapist
 
 
@@ -25,7 +25,7 @@ class GroupViewSet(viewsets.ModelViewSet):
     permission_classes = [permissions.IsAuthenticated]
 
 class UserDetailViewSet(viewsets.ModelViewSet):
-    serializer_class = UserSerializer
+    serializer_class = UserDetailSerializer
     permission_classes = [IsAuthenticated]
 
     def get_queryset(self):

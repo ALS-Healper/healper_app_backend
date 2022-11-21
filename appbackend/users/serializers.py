@@ -22,12 +22,12 @@ class ClientSerializer(serializers.ModelSerializer):
         fields = ['user_ref', 'thera']
 
 class UserDetailSerializer(serializers.ModelSerializer):
-    client = ClientSerializer(many=False)
-    therapist = TherapistSerializer(many=False)
+    client = ClientSerializer(many=True)
+    therapist = TherapistSerializer(many=True)
 
-class Meta:
-    model = Client
-    fields = ['pk', 'first_name', 'last_name','email', 'client', 'therapist']
+    class Meta:
+        model = User
+        fields = ['pk', 'first_name', 'last_name','email', 'client', 'therapist']
 
 class GroupSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
