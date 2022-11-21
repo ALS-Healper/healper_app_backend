@@ -34,4 +34,8 @@ class GroupSerializer(serializers.HyperlinkedModelSerializer):
         model = Group
         fields = ['url', 'name']
 
-
+class ClientListSerializer(serializers.ModelSerializer):
+    clients = ClientSerializer(many=True)
+    class Meta:
+        model = Therapist
+        fields = ['clients']
