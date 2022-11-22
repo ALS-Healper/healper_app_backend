@@ -39,4 +39,8 @@ class QuestionNumericEntryViewSet(viewsets.ModelViewSet):
 class ClientEntryViewSet(viewsets.ModelViewSet):
     permission_classes = [IsAuthenticated]
     serializer_class = ClientEntrySerializer
-    queryset = Client.objects.all()
+
+    def get_queryset(self):
+        client_pk = self.request.query_params.get("client_pk")
+        client = Client.objects.filter(pk = client_pk, thera__pk=self.request.user.pk)
+        return client
