@@ -5,7 +5,7 @@ from rest_framework import serializers
 class UserSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = User
-        fields = ['username', 'first_name', 'last_name', 'email']
+        fields = ['pk', 'username', 'first_name', 'last_name', 'email']
 
 class TherapistSerializer(serializers.ModelSerializer):
     user_ref = UserSerializer(many=False)
