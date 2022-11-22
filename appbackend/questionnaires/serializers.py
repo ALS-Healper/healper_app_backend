@@ -112,4 +112,4 @@ class ClientEntrySerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Client
-        fields = ['user_ref','thera', 'choiceentries','inputentries','numericentries']
+        fields = ['pk','user_ref','thera', 'choiceentries','inputentries','numericentries']
