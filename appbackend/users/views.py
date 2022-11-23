@@ -1,10 +1,12 @@
 from django.shortcuts import render
 
 from django.contrib.auth.models import User, Group
-from rest_framework import viewsets, permissions
+from rest_framework import viewsets, permissions, status
 from rest_framework.permissions import IsAuthenticated
+from rest_framework.response import Response
 from .serializers import UserSerializer, GroupSerializer, TherapistSerializer, ClientSerializer, ClientListSerializer, UserDetailSerializer
 from .models import Client, Therapist
+
 
 
 class UserViewSet(viewsets.ModelViewSet):
@@ -38,7 +40,6 @@ class TherapistDetailViewSet(viewsets.ModelViewSet):
 
     def get_queryset(self):
         therapist = Therapist.objects.filter(user_ref__pk = self.request.user.pk)
-        #query = Client.objects.filter(thera = therapist)
         return therapist
 
 class ClientDetailViewSet(viewsets.ModelViewSet):
@@ -46,9 +47,8 @@ class ClientDetailViewSet(viewsets.ModelViewSet):
     permission_classes = [IsAuthenticated]
 
     def get_queryset(self):
-        therapist = Client.objects.filter(user_ref__pk = self.request.user.pk)
-        #query = Client.objects.filter(thera = therapist)
-        return therapist
+        client = Client.objects.filter(user_ref__pk = self.request.user.pk)
+        return client
 
 class TherapistClientListViewsSet(viewsets.ReadOnlyModelViewSet):
     permission_classes = [IsAuthenticated]
