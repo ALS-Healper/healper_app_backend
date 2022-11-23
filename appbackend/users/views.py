@@ -32,16 +32,23 @@ class UserDetailViewSet(viewsets.ModelViewSet):
         query = User.objects.filter(pk = self.request.user.pk)
         return query
 
-
 class TherapistDetailViewSet(viewsets.ModelViewSet):
     serializer_class = TherapistSerializer
     permission_classes = [IsAuthenticated]
-    queryset = Therapist.objects.all()
+
+    def get_queryset(self):
+        therapist = Therapist.objects.filter(user_ref__pk = self.request.user.pk)
+        #query = Client.objects.filter(thera = therapist)
+        return therapist
 
 class ClientDetailViewSet(viewsets.ModelViewSet):
     serializer_class = ClientSerializer
     permission_classes = [IsAuthenticated]
-    queryset = Client.objects.all()
+
+    def get_queryset(self):
+        therapist = Client.objects.filter(user_ref__pk = self.request.user.pk)
+        #query = Client.objects.filter(thera = therapist)
+        return therapist
 
 class TherapistClientListViewsSet(viewsets.ReadOnlyModelViewSet):
     permission_classes = [IsAuthenticated]
