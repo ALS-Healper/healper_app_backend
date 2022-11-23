@@ -17,13 +17,15 @@ from django.contrib import admin
 from django.urls import path, include
 from rest_framework import routers
 from questionnaires import views
-from users.views import UserDetailViewSet, UserViewSet, TherapistClientListViewsSet
+from users.views import UserDetailViewSet, UserViewSet, TherapistClientListViewsSet, ClientDetailViewSet, TherapistDetailViewSet
 from rest_framework.authtoken.views import obtain_auth_token
 
 router = routers.DefaultRouter()
 #User routes
 router.register(r'users', UserViewSet)
 router.register(r'user-detail', UserDetailViewSet, basename="user-detail")
+router.register(r'client-detail', ClientDetailViewSet, basename="client-detail")
+router.register(r'therapist-detail', TherapistDetailViewSet, basename="therapist-detail")
 router.register(r'client-list', TherapistClientListViewsSet, basename="client-list")
 
 #question routes
