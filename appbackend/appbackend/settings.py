@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'rest_framework.authtoken',
     'users.apps.UsersConfig',
     'questionnaires.apps.QuestionnairesConfig',
+    'notifications.apps.NotificationsConfig',
 ]
 
 MIDDLEWARE = [
