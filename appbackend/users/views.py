@@ -56,5 +56,5 @@ class TherapistClientListViewsSet(viewsets.ReadOnlyModelViewSet):
 
     def get_queryset(self):
         #therapist = Therapist.objects.filter(user_ref__pk = self.request.user.pk)
-        query = Client.objects.filter(thera__user_ref__pk = self.request.user.pk, data_access=True)
+        query = Client.objects.filter(thera__user_ref__pk = self.request.user.pk)
         return query

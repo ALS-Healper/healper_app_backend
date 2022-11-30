@@ -42,5 +42,8 @@ class ClientEntryViewSet(viewsets.ModelViewSet):
 
     def get_queryset(self):
         client_pk = self.request.query_params.get("client_pk")
-        client = Client.objects.filter(pk = client_pk, thera__pk=self.request.user.pk)
-        return client
+        if client_pk == self.request.user.pk:
+            res = Client.objects.filter(pk = self.request.user.pk)
+        else:
+            res = Client.objects.filter(pk=client_pk, thera__pk=self.request.user.pk, data_access=True)
+        return res
