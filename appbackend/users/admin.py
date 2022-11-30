@@ -27,6 +27,7 @@ class QuestionAdmin(admin.ModelAdmin):
 @admin.register(QuestionInputEntry)
 class QuestionEntryAdmin(admin.ModelAdmin):
    list_display = ['creator', 'get_question_text', 'response_text', 'entry_date']
+   
 # To display the question text in list view
    def get_question_text(self, obj):
       return obj.question.question_text

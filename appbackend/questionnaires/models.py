@@ -1,4 +1,4 @@
-from datetime import timezone
+from datetime import timezone, datetime
 from django.db import models
 from users.models import Therapist, Client
 
@@ -40,19 +40,19 @@ class OptionNumeric(models.Model):
 class QuestionInputEntry(models.Model):
     question = models.ForeignKey(QuestionInput, on_delete=models.CASCADE, related_name="inputentries")
     response_text = models.CharField(max_length=300)
-    entry_date = models.DateTimeField(auto_now_add=True)
+    entry_date = models.DateTimeField(default=datetime.now())
     creator = models.ForeignKey(Client, on_delete=models.CASCADE, related_name="inputentries")
 
 class QuestionNumericEntry(models.Model):
     question = models.ForeignKey(QuestionNumeric, on_delete=models.CASCADE, related_name="numericentries")
     response_value = models.IntegerField()
-    entry_date = models.DateTimeField(auto_now_add=True)
+    entry_date = models.DateTimeField(default=datetime.now())
     creator = models.ForeignKey(Client, on_delete=models.CASCADE, related_name="numericentries")
 
 class QuestionChoiceEntry(models.Model):
     question = models.ForeignKey(QuestionChoice, on_delete=models.CASCADE, related_name="choiceentries")
     choice_value = models.CharField(max_length=100)
-    entry_date = models.DateTimeField(auto_now_add=True)
+    entry_date = models.DateTimeField(default=datetime.now())
     creator = models.ForeignKey(Client, on_delete=models.CASCADE, related_name="choiceentries")
 
 

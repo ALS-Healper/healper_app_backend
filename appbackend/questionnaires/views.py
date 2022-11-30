@@ -1,9 +1,9 @@
 from django.shortcuts import render
 from django.contrib.auth.models import User, Group
-from rest_framework import viewsets, permissions
+from rest_framework import viewsets
 from rest_framework.permissions import IsAuthenticated
-from questionnaires.models import Questionnaire, Question, QuestionInputEntry, QuestionChoiceEntry, QuestionNumericEntry
-from .serializers import ClientEntrySerializer, QuestionChoiceEntrySerializer, QuestionEntrySerializer, QuestionInputEntrySerializer, QuestionNumericEntrySerializer, UserSerializer, QuestionnaireSerializer, QuestionSerializer
+from questionnaires.models import Questionnaire, Question, QuestionInput,QuestionChoice,QuestionNumeric, QuestionInputEntry, QuestionChoiceEntry, QuestionNumericEntry
+from .serializers import ClientEntrySerializer, QuestionChoiceEntrySerializer, QuestionChoiceSerializer, QuestionEntrySerializer, QuestionInputEntrySerializer, QuestionInputSerializer, QuestionNumericEntrySerializer, QuestionNumericSerializer, UserSerializer, QuestionnaireSerializer, QuestionSerializer
 from users.models import Client
 
 class QuestionnaireViewSet(viewsets.ModelViewSet):
@@ -16,6 +16,21 @@ class QuestionViewSet(viewsets.ModelViewSet):
     permission_classes = [IsAuthenticated]
     serializer_class = QuestionSerializer
     queryset = Question.objects.all()
+
+class QuestionInputViewSet(viewsets.ModelViewSet):
+    permission_classes = [IsAuthenticated]
+    serializer_class = QuestionInputSerializer
+    queryset = QuestionInput.objects.all()
+
+class QuestionChoiceViewSet(viewsets.ModelViewSet):
+    permission_classes = [IsAuthenticated]
+    serializer_class = QuestionChoiceSerializer
+    queryset = QuestionChoice.objects.all()
+
+class QuestionNumericViewSet(viewsets.ModelViewSet):
+    permission_classes = [IsAuthenticated]
+    serializer_class = QuestionNumericSerializer
+    queryset = QuestionNumeric.objects.all()
 
 
 class QuestionInputEntryViewSet(viewsets.ModelViewSet):

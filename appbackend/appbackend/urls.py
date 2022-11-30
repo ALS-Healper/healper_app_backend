@@ -33,6 +33,9 @@ router.register(r'client-list', TherapistClientListViewsSet, basename="client-li
 router.register(r'questionEntries', views.ClientEntryViewSet, basename="questionEntries")
 router.register(r'questions',views.QuestionViewSet, basename="questions")
 router.register(r'questionnaires', views.QuestionnaireViewSet, basename="questionnaires")
+router.register(r'question-input', views.QuestionInputViewSet, basename="question-input")
+router.register(r'question-choice', views.QuestionChoiceViewSet, basename="question-choice")
+router.register(r'question-numeric', views.QuestionNumericViewSet, basename="question-numeric")
 
 #entry routes
 router.register(r'choiceentries', views.QuestionChoiceEntryViewSet, basename="choiceentries")
