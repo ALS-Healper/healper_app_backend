@@ -18,6 +18,7 @@ from django.urls import path, include
 from rest_framework import routers
 from questionnaires import views
 from users.views import UserDetailViewSet, UserViewSet, TherapistClientListViewsSet, ClientDetailViewSet, TherapistDetailViewSet
+from notifications.views import NotificationViewSet
 from rest_framework.authtoken.views import obtain_auth_token
 
 router = routers.DefaultRouter()
@@ -37,6 +38,9 @@ router.register(r'questionnaires', views.QuestionnaireViewSet, basename="questio
 router.register(r'choiceentries', views.QuestionChoiceEntryViewSet, basename="choiceentries")
 router.register(r'inputentries', views.QuestionInputEntryViewSet, basename="inputentries")
 router.register(r'numericentries', views.QuestionNumericEntryViewSet, basename="numericentries")
+
+#utils routes
+router.register(r'notifications', NotificationViewSet, basename="notifications")
 
 #url patterns
 urlpatterns = [
