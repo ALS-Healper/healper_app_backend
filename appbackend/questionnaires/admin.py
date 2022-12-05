@@ -13,11 +13,7 @@ class QuestionnaireEntryAdmin(admin.ModelAdmin):
 
 @admin.register(Question)
 class QuestionAdmin(admin.ModelAdmin):
-    list_display = ['creator', 'question_text', 'get_questionnaires']
-
-    #find all questionnaires the question is part of
-    def get_questionnaires(self, obj):
-        return "\n".join([p.title for p in obj.questionnaires.all()])
+    list_display = ['creator', 'question_text']
 
 @admin.register(QuestionInputEntry)
 class QuestionEntryAdmin(admin.ModelAdmin):
