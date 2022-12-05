@@ -30,7 +30,7 @@ router.register(r'therapist-detail', TherapistDetailViewSet, basename="therapist
 router.register(r'client-list', TherapistClientListViewsSet, basename="client-list")
 
 #question routes
-router.register(r'questionEntries', views.ClientEntryViewSet, basename="questionEntries")
+router.register(r'questionEntries', views.QuestionnaireEntryViewSet, basename="questionEntries")
 router.register(r'questions',views.QuestionViewSet, basename="questions")
 router.register(r'questionnaires', views.QuestionnaireViewSet, basename="questionnaires")
 router.register(r'question-input', views.QuestionInputViewSet, basename="question-input")

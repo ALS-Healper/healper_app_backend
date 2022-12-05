@@ -19,7 +19,7 @@ class ClientSerializer(serializers.ModelSerializer):
     
     class Meta:
         model = Client
-        fields = ['pk','user_ref', 'data_access', 'thera']
+        fields = ['pk','user_ref', 'data_access', 'thera', 'img_url']
 
 class UserDetailSerializer(serializers.ModelSerializer):
     client = ClientSerializer(many=True)

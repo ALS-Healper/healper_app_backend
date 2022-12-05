@@ -1,7 +1,7 @@
 from django.contrib.auth.models import User, Group
 from users.models import Therapist, Client
 from users.serializers import TherapistSerializer, ClientSerializer, UserSerializer
-from questionnaires.models import Questionnaire, Question, QuestionChoice, QuestionInput, QuestionNumeric, OptionChoice, QuestionNumeric, OptionNumeric, OptionInput, QuestionNumericEntry, QuestionChoiceEntry, QuestionInputEntry
+from questionnaires.models import Questionnaire, Question, QuestionChoice, QuestionInput, QuestionNumeric, OptionChoice, QuestionNumeric, OptionNumeric, OptionInput, QuestionNumericEntry, QuestionChoiceEntry, QuestionInputEntry, QuestionnaireEntry
 from rest_framework import serializers
 
 
@@ -64,21 +64,21 @@ class QuestionInputEntrySerializer(serializers.ModelSerializer):
     creator = ClientSerializer
     class Meta:
         model = QuestionInputEntry
-        fields =['pk','creator','response_text','entry_date','question']
+        fields =['pk','creator','questionnaire_entry', 'response_text','entry_date','question']
 
 class QuestionChoiceEntrySerializer(serializers.ModelSerializer):
     question = QuestionChoiceSerializer
     creator = ClientSerializer
     class Meta:
         model = QuestionChoiceEntry
-        fields =['pk','creator','choice_value','entry_date','question']
+        fields =['pk','creator','questionnaire_entry','choice_value','entry_date','question']
 
 class QuestionNumericEntrySerializer(serializers.ModelSerializer):
     question = QuestionNumericSerializer
     creator = ClientSerializer
     class Meta:
         model = QuestionNumericEntry
-        fields =['pk','creator','response_value','entry_date','question']
+        fields =['pk','creator','questionnaire_entry','response_value','entry_date','question']
 
 
 class QuestionEntrySerializer(serializers.ModelSerializer):
@@ -100,7 +100,7 @@ class QuestionnaireSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Questionnaire
-        fields = ['title', 'creator','inputquestions', 'choicequestions', 'numericquestions']
+        fields = ['pk','title', 'creator','inputquestions', 'choicequestions', 'numericquestions']
 
 
 class ClientEntrySerializer(serializers.ModelSerializer):
@@ -113,3 +113,12 @@ class ClientEntrySerializer(serializers.ModelSerializer):
     class Meta:
         model = Client
         fields = ['pk','user_ref','thera', 'choiceentries','inputentries','numericentries']
+
+class QuestionnaireEntrySerializer(serializers.ModelSerializer):
+    choiceentries = QuestionChoiceEntrySerializer(many=True, required=False)
+    inputentries = QuestionInputEntrySerializer(many=True, required=False)
+    numericentries = QuestionNumericEntrySerializer(many=True, required=False)
+
+    class Meta:
+        model = QuestionnaireEntry
+        fields = ['pk','creator','entry_date', 'questionnaire', 'is_completed', 'choiceentries','inputentries','numericentries']

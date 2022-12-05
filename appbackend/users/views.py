@@ -45,10 +45,7 @@ class TherapistDetailViewSet(viewsets.ModelViewSet):
 class ClientDetailViewSet(viewsets.ModelViewSet):
     serializer_class = ClientSerializer
     permission_classes = [IsAuthenticated]
-
-    def get_queryset(self):
-        client = Client.objects.filter(user_ref__pk = self.request.user.pk)
-        return client
+    queryset = Client.objects.all()
 
 class TherapistClientListViewsSet(viewsets.ReadOnlyModelViewSet):
     permission_classes = [IsAuthenticated]
