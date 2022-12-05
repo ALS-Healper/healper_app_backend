@@ -20,6 +20,7 @@ from questionnaires import views
 from users.views import UserDetailViewSet, UserViewSet, TherapistClientListViewsSet, ClientDetailViewSet, TherapistDetailViewSet
 from notifications.views import NotificationViewSet
 from rest_framework.authtoken.views import obtain_auth_token
+from report.views import make_pdf
 
 router = routers.DefaultRouter()
 #User routes
@@ -51,5 +52,6 @@ urlpatterns = [
     path('', include(router.urls)),
     path('api-auth/', include('rest_framework.urls', namespace='rest_framework')),
     path('api-token-auth/', obtain_auth_token, name='api_token_auth'),
+    path('create-pdf/',make_pdf, name="create-pdf")
     #path('api/questionEntries/', views.QuestionEntryViewSet.as_view(), name="questionEntries")
 ]
