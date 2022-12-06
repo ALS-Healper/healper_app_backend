@@ -22,6 +22,9 @@ from notifications.views import NotificationViewSet
 from rest_framework.authtoken.views import obtain_auth_token
 from report.views import make_pdf
 
+from django.conf import settings
+from django.conf.urls.static import static
+
 router = routers.DefaultRouter()
 #User routes
 router.register(r'users', UserViewSet)
@@ -52,6 +55,7 @@ urlpatterns = [
     path('', include(router.urls)),
     path('api-auth/', include('rest_framework.urls', namespace='rest_framework')),
     path('api-token-auth/', obtain_auth_token, name='api_token_auth'),
-    path('create-pdf/<int:id>',make_pdf, name="create-pdf")
+    path('create-pdf/<int:id>/', make_pdf, name="create-pdf")
     #path('api/questionEntries/', views.QuestionEntryViewSet.as_view(), name="questionEntries")
 ]
+
