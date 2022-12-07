@@ -26,16 +26,16 @@ def html_to_pdf(template_src, context_dict={}):
 
 def make_pdf(request, id=None):
     client_data = Client.objects.filter(pk=id).first()
-    questionnaire_data = [x for x in QuestionnaireEntry.objects.prefetch_related("numericentries").filter(creator=id, creator__thera__pk=request.user.pk, creator__data_access=True)]
+    questionnaire_data = [x for x in QuestionnaireEntry.objects.filter(creator=id, creator__thera__pk=request.user.pk, creator__data_access=True)]
 
-    graph_data = {"values": list(),
-        "labels" : list()}
+    graph_data = {"values": [],
+        "labels" : []}
 
     for question_entry in questionnaire_data:
         if question_entry.is_completed:
-            print(question_entry.numericentries)
-            graph_data['values'].append(question_entry.numericentries[0].response_value)
-            graph_data['labels'].append(question_entry.numericentries[0].entry_date)
+            #print(list(question_entry.numericentries.all()))
+            graph_data['values'].append(question_entry.numericentries.first().response_value)
+            graph_data['labels'].append(question_entry.numericentries.first().entry_date)
 
     #buffer = io.BytesIO()
 
@@ -48,8 +48,8 @@ def make_pdf(request, id=None):
 
     #buffer.seek(0)
     pdf = html_to_pdf('report/clientReport.html', context_dict={"client" : client_data, "questionnaire_data" : questionnaire_data})
-    print(graph_data['labels'])
-    return HttpResponse(pdf)
+    print(graph_data.values)
+    
     email = EmailMessage(
         'Report of User',
         'You have generated a new report for the user: USer',
@@ -60,6 +60,6 @@ def make_pdf(request, id=None):
 
     email.attach('test.pdf', pdf, 'application/pdf')
     email.send()
-
+    return HttpResponse("Nice")
     print(id)
     return HttpResponse(pdf)
