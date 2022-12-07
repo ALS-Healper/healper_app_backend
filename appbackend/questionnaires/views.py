@@ -4,8 +4,8 @@ from django.contrib.auth.models import User, Group
 from rest_framework import viewsets, status
 from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated
-from questionnaires.models import Questionnaire, Question, QuestionInput,QuestionChoice,QuestionNumeric, QuestionInputEntry, QuestionChoiceEntry, QuestionNumericEntry, QuestionnaireEntry
-from .serializers import ClientEntrySerializer, QuestionChoiceEntrySerializer, QuestionChoiceSerializer, QuestionEntrySerializer, QuestionInputEntrySerializer, QuestionInputSerializer, QuestionNumericEntrySerializer, QuestionNumericSerializer, QuestionnaireEntrySerializer, UserSerializer, QuestionnaireSerializer, QuestionSerializer
+from questionnaires.models import Questionnaire, Question, QuestionInput,QuestionChoice,QuestionNumeric, QuestionInputEntry, QuestionChoiceEntry, QuestionNumericEntry, QuestionnaireEntry, OptionNumeric, OptionChoice, OptionInput
+from .serializers import ClientEntrySerializer, OptionChoiceSerializer, OptionInputSerializer, OptionNumericSerializer, QuestionChoiceEntrySerializer, QuestionChoiceSerializer, QuestionInputEntrySerializer, QuestionInputSerializer, QuestionNumericEntrySerializer, QuestionNumericSerializer, QuestionnaireEntrySerializer, QuestionnaireSerializer, QuestionSerializer
 from users.models import Client
 
 class QuestionnaireViewSet(viewsets.ModelViewSet):
@@ -53,6 +53,20 @@ class QuestionNumericViewSet(viewsets.ModelViewSet):
     serializer_class = QuestionNumericSerializer
     queryset = QuestionNumeric.objects.all()
 
+class OptionNumericViewSet(viewsets.ModelViewSet):
+    permission_classes = [IsAuthenticated]
+    serializer_class = OptionNumericSerializer
+    queryset = OptionNumeric.objects.all()
+
+class OptionChoiceViewSet(viewsets.ModelViewSet):
+    permission_classes = [IsAuthenticated]
+    serializer_class = OptionChoiceSerializer
+    queryset = OptionChoice.objects.all()
+
+class OptionInputViewSet(viewsets.ModelViewSet):
+    permission_classes = [IsAuthenticated]
+    serializer_class = OptionInputSerializer
+    queryset = OptionInput.objects.all()
 
 class QuestionInputEntryViewSet(viewsets.ModelViewSet):
     permission_classes = [IsAuthenticated]

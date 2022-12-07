@@ -41,6 +41,11 @@ router.register(r'question-input', views.QuestionInputViewSet, basename="questio
 router.register(r'question-choice', views.QuestionChoiceViewSet, basename="question-choice")
 router.register(r'question-numeric', views.QuestionNumericViewSet, basename="question-numeric")
 
+#option routes
+router.register(r'option-numeric', views.OptionNumericViewSet, basename="option-numeric")
+router.register(r'option-choice', views.OptionChoiceViewSet, basename="option-choice")
+router.register(r'option-input', views.OptionInputViewSet, basename="option-input")
+
 #entry routes
 router.register(r'choiceentries', views.QuestionChoiceEntryViewSet, basename="choiceentries")
 router.register(r'inputentries', views.QuestionInputEntryViewSet, basename="inputentries")
