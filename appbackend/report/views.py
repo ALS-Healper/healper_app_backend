@@ -1,6 +1,7 @@
+import functools
 from django.http import FileResponse, HttpResponse
 from django.core.mail import send_mail, EmailMessage, EmailMultiAlternatives
-from reportlab.pdfgen import canvas
+#from reportlab.pdfgen import canvas
 from django.conf import settings
 from django.shortcuts import render
 from io import BytesIO
@@ -10,21 +11,32 @@ from questionnaires.models import QuestionnaireEntry
 from users.models import Client
 
 
+
 def html_to_pdf(template_src, context_dict={}):
      template = get_template(template_src)
      html  = template.render(context_dict)
-     return html
+     #return html
      result = BytesIO()
-     pdf = pisa.pisaDocument(BytesIO(html.encode("ISO-8859-1")), result)
+     pdf = pisa.pisaDocument(BytesIO(html.encode("ISO-8859-1")), result, )
      if not pdf.err:
          return result.getvalue()
      return None
 
 
+
 def make_pdf(request, id=None):
     client_data = Client.objects.filter(pk=id).first()
-    questionnaire_data = list(QuestionnaireEntry.objects.filter(creator=id, creator__thera__pk=request.user.pk, creator__data_access=True))
-   
+    questionnaire_data = [x for x in QuestionnaireEntry.objects.prefetch_related("numericentries").filter(creator=id, creator__thera__pk=request.user.pk, creator__data_access=True)]
+
+    graph_data = {"values": list(),
+        "labels" : list()}
+
+    for question_entry in questionnaire_data:
+        if question_entry.is_completed:
+            print(question_entry.numericentries)
+            graph_data['values'].append(question_entry.numericentries[0].response_value)
+            graph_data['labels'].append(question_entry.numericentries[0].entry_date)
+
     #buffer = io.BytesIO()
 
     #p = canvas.Canvas(buffer)
@@ -36,6 +48,7 @@ def make_pdf(request, id=None):
 
     #buffer.seek(0)
     pdf = html_to_pdf('report/clientReport.html', context_dict={"client" : client_data, "questionnaire_data" : questionnaire_data})
+    print(graph_data['labels'])
     return HttpResponse(pdf)
     email = EmailMessage(
         'Report of User',

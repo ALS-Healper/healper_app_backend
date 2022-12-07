@@ -55,7 +55,8 @@ urlpatterns = [
     path('', include(router.urls)),
     path('api-auth/', include('rest_framework.urls', namespace='rest_framework')),
     path('api-token-auth/', obtain_auth_token, name='api_token_auth'),
-    path('create-pdf/<int:id>/', make_pdf, name="create-pdf")
+    path('create-pdf/<int:id>/', make_pdf, name="create-pdf"),
+    
     #path('api/questionEntries/', views.QuestionEntryViewSet.as_view(), name="questionEntries")
 ]
 

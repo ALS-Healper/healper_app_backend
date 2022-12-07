@@ -42,7 +42,8 @@ INSTALLED_APPS = [
     'users.apps.UsersConfig',
     'questionnaires.apps.QuestionnairesConfig',
     'notifications.apps.NotificationsConfig',
-    'report.apps.ReportConfig'
+    'report.apps.ReportConfig',
+
 ]
 
 MIDDLEWARE = [
