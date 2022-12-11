@@ -9,6 +9,7 @@ from django.template.loader import get_template
 from xhtml2pdf import pisa
 from questionnaires.models import QuestionnaireEntry
 from users.models import Client
+import re
 
 
 
@@ -28,34 +29,33 @@ def make_pdf(request, id=None):
     client_data = Client.objects.filter(pk=id).first()
     questionnaire_data = [x for x in QuestionnaireEntry.objects.filter(creator=id, creator__thera__pk=request.user.pk, creator__data_access=True)]
 
-    graph_data = {"values": [],
-        "labels" : []}
+    # Senere hvis vi har flere numericentries pr questionnaire ville jeg lave det sådan at "values" holder på flere lister [[],[]] 
+    # Har bare lavet flere kvp for at få det til at virke for nu. bar chartet skal have et int for højde og label som jeg bare har harcoded
+    graph_data = {"values": [], 
+        "labels" : [],
+        "input" : [], 
+        "yes" : 0,
+        "no" : 0}
 
     for question_entry in questionnaire_data:
         if question_entry.is_completed:
-            #print(list(question_entry.numericentries.all()))
-            graph_data['values'].append(question_entry.numericentries.first().response_value)
-            graph_data['labels'].append(question_entry.numericentries.first().entry_date)
+            graph_data["values"].append(question_entry.numericentries.first().response_value)
+            graph_data["labels"].append(question_entry.numericentries.first().entry_date.strftime("'%d/%m/%Y'"))
+            graph_data["input"].append(question_entry.inputentries.first())
+            if question_entry.choiceentries.first().choice_value == "Yes":
+                graph_data["yes"] += 1
+            else:
+                graph_data["no"] += 1
 
-    #buffer = io.BytesIO()
 
-    #p = canvas.Canvas(buffer)
-
-   # p.drawString(100,100, "Hello from Markus and Alek bisch")
-
-    #p.showPage()
-    #p.save()
-
-    #buffer.seek(0)
-    pdf = html_to_pdf('report/clientReport.html', context_dict={"client" : client_data, "questionnaire_data" : questionnaire_data})
-    print(graph_data.values)
+    pdf = html_to_pdf('report/clientReport.html', context_dict={"client" : client_data, "questionnaire_data" : questionnaire_data, "graph_data" : graph_data})
     
     email = EmailMessage(
-        'Report of User',
-        'You have generated a new report for the user: USer',
+        f'Report of {client_data.user_ref.username}',
+        f'You have generated a new report for the user: {client_data.user_ref.first_name}',
         settings.EMAIL_HOST_USER,
-        ['markusharen@gmail.com'],
-        # , "alexander.sej@live.dk", "mr.alek112@gmail.com", "mettemhws@gmail.com, request.user.email"
+        ['markusharen@gmail.com', "alexander.sej@live.dk", "mr.alek112@gmail.com", "mettemhws@gmail.com"],
+        # request.user.email"
     )
 
     email.attach('test.pdf', pdf, 'application/pdf')
