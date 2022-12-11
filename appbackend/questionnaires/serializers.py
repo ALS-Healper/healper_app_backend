@@ -36,27 +36,27 @@ class QuestionSerializer(serializers.ModelSerializer):
 #input
 class QuestionInputSerializer(serializers.ModelSerializer):
     #question = QuestionSerializer(many=False)
-    creator = TherapistSerializer(many=False)
-    optioninputs = OptionInputSerializer(many=True)
+    #creator = TherapistSerializer(many=False)
+    optioninputs = OptionInputSerializer(many=True, required=False)
     class Meta:
         model = QuestionInput
-        fields = ['pk','question_text','creator','optioninputs']
+        fields = ['pk', 'questionnaires', 'question_text','creator','optioninputs']
 #choice
 class QuestionChoiceSerializer(serializers.ModelSerializer):
     #question = QuestionSerializer(many=False)
-    creator = TherapistSerializer(many=False)
-    optionchoices = OptionChoiceSerializer(many=True)
+    #creator = TherapistSerializer(many=False)
+    optionchoices = OptionChoiceSerializer(many=True, required=False)
     class Meta:
         model = QuestionChoice
-        fields = ['pk','creator','question_text', 'optionchoices',]
+        fields = ['pk','questionnaires','creator','question_text','optionchoices']
 
 class QuestionNumericSerializer(serializers.ModelSerializer):
     #question = QuestionSerializer(many=False)
-    creator = TherapistSerializer(many=False)
-    optionnumerics = OptionNumericSerializer(many=True)
+    #creator = TherapistSerializer(many=False)
+    optionnumerics = OptionNumericSerializer(many=True, required=False)
     class Meta:
         model = QuestionNumeric
-        fields = ['pk','creator','question_text','optionnumerics']
+        fields = ['pk', 'questionnaires', 'creator','question_text','optionnumerics']
 
 #question Entry serializers
 class QuestionInputEntrySerializer(serializers.ModelSerializer):

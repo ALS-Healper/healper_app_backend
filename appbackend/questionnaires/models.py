@@ -12,7 +12,6 @@ class QuestionnaireEntry(models.Model):
     entry_date = models.DateTimeField(default=datetime.now())
     is_completed = models.BooleanField(default=False)
 
-
 class Question(models.Model):
     #questionnaires = models.ManyToManyField(Questionnaire, related_name="questions")
     question_text = models.CharField(max_length=250)
