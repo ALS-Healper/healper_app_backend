@@ -8,7 +8,7 @@ class UserSerializer(serializers.ModelSerializer):
         fields = ['pk', 'username', 'first_name', 'last_name', 'email']
 
 class TherapistSerializer(serializers.ModelSerializer):
-    user_ref = UserSerializer(many=False)
+    user_ref = UserSerializer(many=False, required=False)
     class Meta:
         model = Therapist
         fields = ['pk','is_therapist', 'user_ref']

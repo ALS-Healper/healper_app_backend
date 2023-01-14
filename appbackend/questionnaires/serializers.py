@@ -12,19 +12,22 @@ from rest_framework import serializers
 
 #options serializers
 class OptionChoiceSerializer(serializers.ModelSerializer):
+    question = serializers.PrimaryKeyRelatedField(many=False, queryset=QuestionChoice.objects.all())
     class Meta:
         model = OptionChoice
-        fields = ['pk','option_value']
+        fields = ['pk','option_value', 'question']
 
 class OptionInputSerializer(serializers.ModelSerializer):
+    question = serializers.PrimaryKeyRelatedField(many=False, queryset=QuestionInput.objects.all())
     class Meta:
         model = OptionInput
-        fields = ['pk','standard_text']
+        fields = ['pk','standard_text', 'question']
 
 class OptionNumericSerializer(serializers.ModelSerializer):
+    question = serializers.PrimaryKeyRelatedField(many=False, queryset=QuestionNumeric.objects.all())
     class Meta:
         model = OptionNumeric
-        fields = ['pk','min_value','max_value']
+        fields = ['pk','min_value','max_value', 'question']
 
 #questions serializers
 class QuestionSerializer(serializers.ModelSerializer):
@@ -93,10 +96,10 @@ class QuestionEntrySerializer(serializers.ModelSerializer):
 
 #questionnaire serializer
 class QuestionnaireSerializer(serializers.ModelSerializer):
-    creator = TherapistSerializer(many=False)
-    inputquestions = QuestionInputSerializer(many=True)
-    choicequestions = QuestionChoiceSerializer(many=True)
-    numericquestions = QuestionNumericSerializer(many=True)
+    #creator = TherapistSerializer(many=False)
+    inputquestions = QuestionInputSerializer(many=True, required=False)
+    choicequestions = QuestionChoiceSerializer(many=True, required=False)
+    numericquestions = QuestionNumericSerializer(many=True, required=False)
 
     class Meta:
         model = Questionnaire
